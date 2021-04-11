@@ -1,11 +1,4 @@
-import generators.AppearanceGenerator;
-import generators.FioGenerator;
-import generators.PhoneGenerator;
-import generators.PhysGenerator;
-import person.Person;
-import person.Phone;
-import person.Physical;
-import person.appearance.Appearance;
+import person.*;
 
 public class InputProcessor {
 
@@ -15,34 +8,9 @@ public class InputProcessor {
         if (input.trim().matches("\\d{4}")) {
             // Создаём Person
             final int intCode = Integer.parseInt(input);
+            Person person = PersonFactory.createPerson(intCode);
 
-            final FioGenerator fioGenerator = new FioGenerator();
-            fioGenerator.generateParams(intCode);
-            final String lastName = fioGenerator.getLastName();
-            final String firstName = fioGenerator.getFirstName();
-            final String middleName = fioGenerator.getMiddleName();
-
-            final PhysGenerator physGenerator = new PhysGenerator();
-            physGenerator.generateParams(intCode);
-            final Physical physical = physGenerator.buildResponse();
-
-            final AppearanceGenerator appearanceGenerator = new AppearanceGenerator();
-            appearanceGenerator.generateParams(intCode);
-            final Appearance appearance = appearanceGenerator.buildResponse();
-
-            Phone phone = null;
-            // добавляем телефон, только если введённый код не палиндром
-            if (!input.equals(new StringBuilder(input).reverse().toString())) {
-                final PhoneGenerator phoneGenerator = new PhoneGenerator();
-                phoneGenerator.generateParams(intCode);
-                phone = phoneGenerator.buildResponse();
-            }
-
-            result = new Person(input,
-                    lastName, firstName, middleName,
-                    physical,
-                    appearance,
-                    phone).toString();
+            result = person.toString();
         } else {
             result = "Неверный ввод.";
         }

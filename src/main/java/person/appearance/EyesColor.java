@@ -7,3 +7,4 @@ public final class EyesColor {
     public static final String GRAY = "серые";
     public static final String DIFF = "разные";
 }
+

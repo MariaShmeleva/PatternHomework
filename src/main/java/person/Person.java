@@ -2,38 +2,21 @@ package person;
 
 import person.appearance.Appearance;
 
-public class Person {
+public final class Person {
 
-    private final String id;
-    private final String lastName;
-    private final String firstName;
-    private final String middleName;
-    private final Physical phys;
-    private final Appearance appearance;
-    private final Phone phone;
+    private int id;
+    private Fio fio;
+    private Physical phys;
+    private Appearance appearance;
+    private Phone phone;
 
-    public Person(final String id,
-                  final String lastName,
-                  final String firstName,
-                  final String middleName,
-                  final Physical phys,
-                  final Appearance appearance,
-                  final Phone phone) {
-        this.id = id;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.phys = phys;
-        this.appearance = appearance;
-        this.phone = phone;
-    }
-
+    private Person() { }
 
     @Override
-    public final String toString() {
+    public String toString() {
         final StringBuilder sb = new StringBuilder()
-                .append(id).append("\n")
-                .append(String.format("%1$s %2$s %3$s", lastName, firstName, middleName)).append("\n")
+                .append(String.format("%04d", id)).append("\n")
+                .append(fio).append("\n")
                 .append(phys).append("\n")
                 .append(appearance).append("\n");
         if (phone != null) {
@@ -43,4 +26,37 @@ public class Person {
         }
         return sb.toString();
     }
+
+    public static class PersonBuilder {
+        private final int id;
+        private final Fio fio;
+        private final Physical phys;
+        private final Appearance appearance;
+        private Phone phone;
+
+        public PersonBuilder(final int id,
+                             final Fio fio,
+                             final Physical phys,
+                             final Appearance appearance) {
+            this.id = id;
+            this.fio = fio;
+            this.phys = phys;
+            this.appearance = appearance;
+        }
+        public PersonBuilder withPhone(final Phone phone) {
+            this.phone = phone;
+            return this;
+        }
+        public Person build() {
+            final Person person = new Person();
+            person.id = this.id;
+            person.fio = this.fio;
+            person.appearance = this.appearance;
+            person.phys = this.phys;
+            person.phone = this.phone;
+            return person;
+        }
+
+    }
 }
+
